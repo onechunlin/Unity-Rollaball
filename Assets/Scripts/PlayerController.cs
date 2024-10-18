@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
+    public Joystick joystick;
 
     private Rigidbody rb;
     private int count;
@@ -24,13 +22,6 @@ public class PlayerController : MonoBehaviour
         winTextObject.SetActive(false);
     }
 
-    void OnMove(InputValue value)
-    {
-        Vector2 movement = value.Get<Vector2>();
-        movementX = movement.x;
-        movementY = movement.y;
-    }
-
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
@@ -43,6 +34,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        movementX = joystick.Horizontal;
+        movementY = joystick.Vertical;
         Vector3 movementVector = new Vector3(movementX, 0, movementY);
         rb.AddForce(movementVector * speed);
     }
